@@ -89,13 +89,9 @@ def simulate_model(
     tally.triggers = [openmc.Trigger(trigger_type='std_dev', threshold=0.01)]
     tallies.append(tally)
 
-    # RUN OPENMC #
+    # Run OpenMC and open statepoint file
     model = openmc.model.Model(geom, mats, sett, tallies)
-    model.run(output=False)
-
-    # RETRIEVING TALLY RESULTS
-
-    sp = openmc.StatePoint("statepoint." + str(batches) + ".h5")
+    sp = openmc.StatePoint(model.run(output=False))
 
     json_output = {
         "batches": batches,
@@ -106,6 +102,8 @@ def simulate_model(
         "breeder_material_name": breeder_material_name,
         "temperature_in_C": temperature_in_C,
     }
+
+    # Extract tally results
 
     tally = sp.get_tally(name="TBR")
 

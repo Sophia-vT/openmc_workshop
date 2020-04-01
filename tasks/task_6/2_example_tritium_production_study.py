@@ -77,12 +77,9 @@ def make_materials_geometry_tallies(enrichment):
     tbr_tally.triggers = [openmc.Trigger(trigger_type='std_dev', threshold=0.01)]  # This stops the simulation if the threshold is meet
     tallies.append(tbr_tally)
 
-    # RUN OPENMC
+    # Run OpenMC and open statepoint file
     model = openmc.model.Model(geom, mats, sett, tallies)
-    sp_filename = model.run()
-
-    # OPEN OUPUT FILE
-    sp = openmc.StatePoint(sp_filename)
+    sp = openmc.StatePoint(openmc.run())
 
     tbr_tally = sp.get_tally(name='TBR')
 

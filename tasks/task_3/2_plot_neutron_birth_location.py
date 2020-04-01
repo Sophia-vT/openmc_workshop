@@ -43,11 +43,9 @@ source.energy = openmc.stats.Muir(e0=14080000.0, m_rat=5.0, kt=20000.0)  #neutro
 
 sett.source = source
 
-# Run OpenMC!
+# Run OpenMC and open statepoint file
 model = openmc.model.Model(geom, mats, sett)
-model.run()
-
-sp = openmc.StatePoint('statepoint.'+str(batches)+'.h5')
+sp = openmc.StatePoint(model.run())
 
 print('birth location of first neutron =', sp.source['r'][0])  # these neutrons are all created
 

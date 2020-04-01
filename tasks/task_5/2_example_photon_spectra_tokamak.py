@@ -102,12 +102,9 @@ spectra_tally.scores = ['flux']
 tallies.append(spectra_tally)
 
 
-# Run OpenMC!
+# Run OpenMC and open statepoint file
 model = openmc.model.Model(geom, mats, sett, tallies)
-model.run()
-
-# open the results file
-sp = openmc.StatePoint('statepoint.'+str(batches)+'.h5')
+sp = openmc.StatePoint(model.run())
 
 
 spectra_tally = sp.get_tally(name='breeder_blanket_neutron_spectra')

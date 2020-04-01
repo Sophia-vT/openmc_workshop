@@ -69,13 +69,9 @@ mesh_tally.scores = ['flux']  # change flux to absorption
 tallies.append(mesh_tally)
 
 
-# Run OpenMC!
+# Run OpenMC and open statepoint file
 model = openmc.model.Model(geom, mats, sett, tallies)
-model.run()
-
-
-# open the results file
-sp = openmc.StatePoint('statepoint.'+str(batches)+'.h5')
+sp = openmc.StatePoint(model.run())
 
 # access the flux tally
 flux_tally = sp.get_tally(scores=['flux'])  # change flux to absorption

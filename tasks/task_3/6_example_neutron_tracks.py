@@ -65,9 +65,9 @@ source.energy = openmc.stats.Discrete([14e6], [1])
 sett.source = source
 
 
-# Run OpenMC!
+# Run OpenMC and get statepoint filename
 model = openmc.model.Model(geom, mats, sett)
-model.run(tracks=True)  # this creates h5 files with openmc-track-to-vtk
+sp_filename = model.run(tracks=True)  # this creates h5 files with openmc-track-to-vtk
 
 for i in range(1, 11):
     print('converting h5 track file to vtpi')

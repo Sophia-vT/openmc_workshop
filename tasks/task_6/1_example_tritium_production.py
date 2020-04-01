@@ -75,12 +75,9 @@ tbr_tally.scores = ['(n,Xt)']  # MT 205 is the (n,Xt) reaction where X is a wild
 tallies.append(tbr_tally)
 
 
-# Run OpenMC!
+# Run OpenMC and open statepoint file
 model = openmc.model.Model(geom, mats, sett, tallies)
-sp_filename = model.run()
-
-# open the results file
-sp = openmc.StatePoint(sp_filename)
+sp = openmc.StatePoint(model.run())
 
 # access the tally using pandas dataframes
 tbr_tally = sp.get_tally(name='TBR')

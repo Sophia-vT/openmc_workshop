@@ -50,11 +50,9 @@ source.library = './source_sampling.so'
 sett.source = source
 
 
-# Run OpenMC!
+# Run OpenMC and open statepoint file
 model = openmc.model.Model(geom, mats, sett)
-model.run()
-
-sp = openmc.StatePoint('statepoint.'+str(batches)+'.h5')
+sp = openmc.StatePoint(model.run())
 
 print('direction of first neutron =', sp.source['u'][0])  # these neutrons are all created
 

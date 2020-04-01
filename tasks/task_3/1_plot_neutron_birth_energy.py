@@ -52,14 +52,11 @@ source.energy = openmc.stats.Discrete([14e6], [1])
 
 sett.source = source
 
-
-# Run OpenMC!
+# Run OpenMC and open statepoint file
 model = openmc.model.Model(geom, mats, sett)
-model.run()
+sp = openmc.StatePoint(model.run())
 
-sp = openmc.StatePoint('statepoint.'+str(batches)+'.h5')
-
-print('energy of neutrons =',sp.source['E'])  # these neutrons are all created
+print('energy of neutrons =', sp.source['E'])  # these neutrons are all created
 
 energy_bins = np.linspace(0, 20e6, 50)
 
