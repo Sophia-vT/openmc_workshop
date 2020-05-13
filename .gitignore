@@ -13,8 +13,6 @@ tallies.out
 
 *.cub
 
-*.ipynb
-
 *.vtk
 
 *.vti
