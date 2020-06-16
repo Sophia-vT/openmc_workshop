@@ -4,14 +4,11 @@
 
 import openmc
 import plotly.graph_objects as go
+from neutronics_material_maker import Material
 
 # MATERIALS
 
-my_material = openmc.Material(name='water')
-my_material.add_element('H', 1, percent_type='ao')
-my_material.add_element('O', 2, percent_type='ao')
-my_material.set_density('g/cm3', 1)
-
+my_material = Material(material_name='eurofer').openmc_material
 mats = openmc.Materials([my_material])
 
 
@@ -19,8 +16,8 @@ mats = openmc.Materials([my_material])
 
 # surfaces
 vessel_inner_surface = openmc.Sphere(r=500)
-vessel_rear_surface = openmc.Sphere(r=530)
-outer_surface = openmc.Sphere(r=550, boundary_type='vacuum')
+vessel_rear_surface = openmc.Sphere(r=600)
+outer_surface = openmc.Sphere(r=650, boundary_type='vacuum')
 
 # cells
 inner_vessel_cell = openmc.Cell(region=-vessel_inner_surface)
@@ -40,9 +37,9 @@ geom = openmc.Geometry(universe)
 
 # Instantiate a Settings object
 sett = openmc.Settings()
-sett.batches = 100
+sett.batches = 10
 sett.inactive = 0 # the default is 10, which would be wasted computing for us
-sett.particles = 600
+sett.particles = 100_000
 sett.run_mode = 'fixed source'
 
 # Create a DT point source
@@ -63,8 +60,8 @@ spectra_tally.scores = ['flux']
 spectra_tally.filters = [cell_filter, neutron_particle_filter, energy_filter]
 
 # the following two lines will need uncommenting
-# spectra_tally.scores = ['current']
-# spectra_tally.filters = [surface_filter, neutron_particle_filter, energy_filter]
+spectra_tally.scores = ['current']
+spectra_tally.filters = [surface_filter, neutron_particle_filter, energy_filter]
 
 tallies = openmc.Tallies()
 tallies.append(spectra_tally)
